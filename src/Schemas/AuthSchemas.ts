@@ -11,7 +11,13 @@ export const RegisterSchema = z.object({
     password: z
         .string()
         .min(8, 'Password must have at least 8 characters'),
-});
+
+    confirmPassword:    
+        z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+    path: ['confimPassword'],
+    message: "Password do not match",
+})
 
 export const LoginSchema = z.object({
     email: z
