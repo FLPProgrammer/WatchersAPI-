@@ -8,16 +8,21 @@ export const RegisterSchema = z.object({
     email: z
         .string()
         .email('Invalid email address'),
+
     password: z
         .string()
         .min(8, 'Password must have at least 8 characters'),
 
-    confirmPassword:    
-        z.string(),
+    confirmPassword: z.string(),
+
+    profileImage: z
+        .string()
+        .url('Invalid profile image URL')
+        .optional(),
 }).refine((data) => data.password === data.confirmPassword, {
-    path: ['confimPassword'],
-    message: "Password do not match",
-})
+    path: ['confirmPassword'],
+    message: 'Passwords do not match',
+});
 
 export const LoginSchema = z.object({
     email: z

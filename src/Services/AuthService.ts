@@ -27,11 +27,13 @@ export class AuthService {
                 name: data.name,
                 email: data.email,
                 password: hashedPassword,
+                profileImage: data.profileImage,
             },
             select: {
                 id: true,
                 name: true,
                 email: true,
+                profileImage: true,
                 createdAt: true,
             }
         });
@@ -56,13 +58,36 @@ export class AuthService {
         );
 
         if (!passwordMatches) {
-            throw new Error('Invalid email or password!')
+            throw new Error('Invalid email or password')
         }
 
         return {
             id: user.id,
             name: user.name,
             email: user.email,
+            profileImage: user.profileImage,
         };
     }
+
+    async findById(userId: string) {
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId,
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            profileImage: true,
+        },
+    });
+
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    return user;
 }
+}
+
+

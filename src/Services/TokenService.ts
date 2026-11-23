@@ -9,8 +9,9 @@ export class TokenService {
       throw new Error('JWT_SECRET não foi definida no arquivo .env');
     }
 
-    const expiresIn = (process.env.JWT_EXPIRES_IN ??
+    const expiresIn = (process.env.JWT_EXPIRES_IN?.trim() ??
       '15m') as SignOptions['expiresIn'];
+
 
     return jwt.sign({}, secret, {
       subject: userId,
